@@ -1,0 +1,138 @@
+<div class="container-fluid">
+    <h2>Employee Information Form</h2>
+    <div
+      *ngIf="alert"
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
+      <strong>Success !</strong> Your data has been successfully submitted!!!
+      <button
+        type="reset"
+        (click)="closeAlert()"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    <form #employeeForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label>Employee Name </label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Ravi"
+          #employeeName="ngModel"
+          [class.is-invalid]="employeeName.invalid && employeeName.touched"
+          required
+          name="employeeName"
+          minlength="3"
+          [(ngModel)]="employeeModel.name"
+        />
+        <small class="text-danger" *ngIf="employeeName.errors?.minlength">
+          Name must be at least 3 characters long.
+        </small>
+        <small
+          class="text-danger"
+          [class.d-none]="employeeName.untouched || employeeName.valid"
+          >Name is required</small
+        >
+      </div>
+  
+      <div class="form-group">
+        <label>Employee Address</label>
+        <input
+          type="text"
+          class="form-control"
+          #employeeAddress="ngModel"
+          placeholder="12 state road Mumbai-12"
+          [class.is-invalid]="employeeAddress.invalid && employeeAddress.touched"
+          required
+          name="employeeAddress"
+          [(ngModel)]="employeeModel.address"
+        />
+        <small
+          class="text-danger"
+          [class.d-none]="employeeAddress.untouched || employeeAddress.valid"
+          >Address is required</small
+        >
+      </div>
+  
+      <div class="form-group">
+        <label>Employee Phone Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          #employeePhone="ngModel"
+          required
+          pattern="^\d{10}$"
+          [class.is-invalid]="employeePhone.invalid && employeePhone.touched"
+          name="employeePhone"
+          [(ngModel)]="employeeModel.phone"
+        />
+  
+        <div
+          *ngIf="employeePhone.errors && (employeePhone.invalid || employeePhone.touched)"
+        >
+          <small *ngIf="employeePhone.errors.required" class="text-danger"
+            >Phone number is required</small
+          >
+          <small *ngIf="employeePhone.errors.pattern" class="text-danger"
+            >Phone number must be of 10 digits</small
+          >
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label>Employee Dob</label>
+        <input
+          type="date"
+          class="form-control"
+          required
+          name="employeeDob"
+          [(ngModel)]="employeeModel.dob"
+        />
+      </div>
+  
+      <div class="form-group">
+        <label>Employee Email</label>
+        <input
+          type="email"
+          class="form-control"
+          email
+          #employeeEmail="ngModel"
+          placeholder="your@mail.com"
+          required
+          [class.is-invalid]="employeeEmail.invalid && employeeEmail.touched"
+          name="employeeEmail"
+          [(ngModel)]="employeeModel.email"
+        />
+        <div
+          *ngIf="employeeEmail.errors && (employeeEmail.invalid || employeeEmail.touched)"
+        >
+          <small
+            *ngIf="employeeEmail.errors.required && employeeEmail.touched"
+            class="text-danger"
+            >Email is required</small
+          >
+          <small
+            *ngIf="employeeEmail.errors.email && employeeEmail.touched"
+            class="text-danger"
+            >Enter the proper email</small
+          >
+        </div>
+      </div>
+      
+      <div>
+      <button
+        id="submit"
+        [disabled]="employeeForm.form.invalid"
+        class="btn btn-primary"
+        type="submit"
+      >
+        Submit
+      </button>
+      <button type="button" class="btn btn-primary" (click)="employeeForm.resetForm({})">Reset</button>
+    </div>
+    </form>
+  </div>
+  
